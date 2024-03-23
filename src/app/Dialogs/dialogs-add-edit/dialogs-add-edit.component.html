@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>{{ActionTitle}} Employee</h2>
+<mat-dialog-content>
+    <form [formGroup]="formEmployee">
+        <mat-grid-list cols="1" rowHeight="90px">
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label> Name</mat-label>
+                    <input matInput formControlName="name" autocomplete="off">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label> surname</mat-label>
+                    <input matInput formControlName="surname" autocomplete="off">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label > Department</mat-label>
+                    <mat-select formControlName="idDepartment" >
+                        <mat-option *ngFor="let item of DepartmentList" [value]="item.idDepartment">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                    <mat-label> Salary</mat-label>
+                    <input matInput formControlName="Salary" autocomplete="off" type="number">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile> 
+                <mat-form-field>
+                    <mat-label>Choose a Contract date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="contractDate">
+               
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+    
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">Close</button>
+  <button mat-raised-button  color="primary" (click)="addEditEmployee()" [disabled]="formEmployee.invalid">{{ActionButton}}</button>
+</mat-dialog-actions>  
