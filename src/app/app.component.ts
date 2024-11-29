@@ -21,19 +21,25 @@ import {MatSnackBarModule,MatSnackBar} from '@angular/material/snack-bar'
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
 import { MatDialog,MatDialogActions,
   MatDialogClose,
   MatDialogContent,
   MatDialogTitle, } from '@angular/material/dialog';
 import { DialogModule } from '@angular/cdk/dialog';
+import { AppRoutingModule } from './app.routes';
 import { DialogsAddEditComponent } from './Dialogs/dialogs-add-edit/dialogs-add-edit.component';
 import { DepartmentService } from './Services/department.service';
 import { DeleteDialogComponent } from './Dialogs/delete-dialog/delete-dialog.component';
+import { HomeComponent } from './navigation/home/home.component';
+import { DepartmentComponent } from './navigation/department/department.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,ReactiveFormsModule,MatButtonModule,MatTableModule,MatPaginatorModule,MatFormFieldModule,MatSelectModule,MatDatepickerModule,MatNativeDateModule,MatInputModule,MomentDateModule,MatSnackBarModule,MatIconModule,MatDialogModule,MatGridListModule,FormsModule,HttpClientModule,DialogsAddEditComponent,MatDialogClose,MatDialogContent,MatDialogTitle],
-  providers:[EmployeeService,DepartmentService],
+  imports: [RouterOutlet,ReactiveFormsModule,MatButtonModule,MatTableModule,MatPaginatorModule,MatFormFieldModule,MatSelectModule,MatDatepickerModule,MatNativeDateModule,MatInputModule,MomentDateModule,MatSnackBarModule,MatIconModule,MatDialogModule,MatGridListModule,FormsModule,HttpClientModule,MatMenuModule,MatToolbarModule],
+  providers:[EmployeeService,DepartmentService,AppComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -41,14 +47,19 @@ export class AppComponent implements AfterViewInit,OnInit {
   displayedColumns: string[] = ['name', 'surname', 'Department', 'Salary',"Contratc date","Actions"];
   dataSource = new MatTableDataSource<Employee>();
 
-  constructor(private employeeService:EmployeeService,public dialog:MatDialog,private _snackBar:MatSnackBar){
+  constructor(private employeeService:EmployeeService,public dialog:MatDialog,private _snackBar:MatSnackBar,private router:Router){
 
   }
-
+  navigateTo(page: string) {
+    // Lógica de navegación o acciones
+    console.log(`Navigating to: ${page}`);
+    // Aquí puedes implementar navegación real si usas Router:
+    this.router.navigate([page]);
+  }
   ngOnInit(): void {
     this.showEmployees();
   }
-
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   newEmployeeDialog(){
     this.dialog.open(DialogsAddEditComponent,{
@@ -70,7 +81,7 @@ export class AppComponent implements AfterViewInit,OnInit {
         this.employeeService.delete(element.idEmployee).subscribe({
           next:(data)=>{
             this.openSnackBar("Employee was deleted","deleted");
-            this.showEmployees();
+            this.showEmployees(); 
           },error:(e)=>{this.openSnackBar("the Employee couldn't be deleted","failed")}
         })
       }

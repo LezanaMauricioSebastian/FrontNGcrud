@@ -22,7 +22,6 @@ export class EmployeeService {
 
     
   getList():Observable<Employee[]>{
-    console.log(this.http.get<Employee[]>(`${this.apiURL}list`));
     return this.http.get<Employee[]>(`${this.apiURL}list`);
   }
   add(model:Employee):Observable<Employee>{

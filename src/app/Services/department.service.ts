@@ -13,9 +13,16 @@ export class DepartmentService {
   
   constructor(private http:HttpClient) {}
     
-  
+  add(model:Department):Observable<Department>{
+    return this.http.post<Department>(`${this.apiURL}save`,model);
+  }
+  update(idDepartment:number,model:Department):Observable<Department>{
+    return this.http.put<Department>(`${this.apiURL}update/${idDepartment}`,model);
+  }
+  delete(idDepartment:number):Observable<void>{
+    return this.http.delete<void>(`${this.apiURL}delete/${idDepartment}`);
+  }
   getList():Observable<Department[]>{
-      console.log(this.http.get<Department[]>(`${this.apiURL}list`));
       return this.http.get<Department[]>(`${this.apiURL}list`);
   }
 
